@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ data.modalTitle }}</h2>
+<mat-dialog-content>
+  {{ data.modalDescrption }}
+  <div class="rating">
+    <span class="title">Give Rating</span>
+    <app-github-repo-rating
+      [currentRate]="userRating || data.rating"
+      (rateChanged)="onRateChanged($event)"
+    ></app-github-repo-rating>
+    <p>Current Rating: {{ userRating || data.rating }}</p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" cdkFocusInitial (click)="onApply()">
+    Apply
+  </button>
+  <button mat-button [mat-dialog-close]="true">Close</button>
+</mat-dialog-actions>
