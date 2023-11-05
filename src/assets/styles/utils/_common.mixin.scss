@@ -1,0 +1,20 @@
+@mixin m-margin($top: 0, $right: 0, $bottom: 0, $left: 0) {
+  margin: $top $right $bottom $left;
+}
+
+@mixin apply-layout-margins($margins-map) {
+  @each $breakpoints, $data in $margins-map {
+    @each $marginTop, $marginRight, $marginBottom, $marginLeft, $width in $data
+    {
+      @media screen and (min-width: $breakpoints) {
+        @include m-margin($marginTop, $marginRight, $marginBottom, $marginLeft);
+        @if ($width != "unset") {
+          @debug $width;
+          max-width: $width;
+        } @else {
+          max-width: -webkit-fill-available;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+$circunomics-mobile-responsive-breakpoint: 600px !default;
+$circunomics-tablet-responsive-breakpoint: 960px !default;
+$circunomics-medium-responsive-breakpoint: 1280px !default;
+$circunomics-large-responsive-breakpoint: 1480px !default;
+$circunomics-xlarge-responsive-breakpoint: 1600px !default;
+
+$circunomics-grid-margins: (
+  0px: (
+    0 16px 0 16px unset,
+  ),
+  600px: (
+    0 32px 0 32px unset,
+  ),
+  960px: (
+    0 auto 0 auto 840px,
+  ),
+  1280px: (
+    0 auto 0 auto 900px,
+  ),
+  1440px: (
+    0 auto 0 auto 1040px,
+  ),
+  1600px: (
+    0 auto 0 auto 1200px,
+  ),
+) !default;
