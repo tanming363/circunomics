@@ -1,0 +1,18 @@
+<mat-toolbar>
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>GitHub</span>
+  <span class="spacer"></span>
+  <div class="date">
+    <input
+      type="date"
+      [(ngModel)]="selectedDate"
+      (change)="onDateChange($event)"
+    />
+  </div>
+</mat-toolbar>
+
+<div class="alert" *ngIf="errorHandlerService.error$ | async as errorMessage">
+  {{ errorMessage }}
+</div>
