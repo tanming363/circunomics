@@ -1,0 +1,29 @@
+<mat-card class="repo" *ngIf="repo">
+  <mat-card-header>
+    <img
+      class="repo__avatar"
+      mat-card-avatar
+      [src]="repo.owner.avatar_url"
+      [alt]="repo.name"
+    />
+    <mat-card-title class="repo__name" (click)="onClickRepo(repo)">
+      {{ repo.name }}
+    </mat-card-title>
+    <div class="repo__rating" *ngIf="repo.rating > 0">
+      <app-github-repo-rating
+        [currentRate]="repo.rating"
+        [isDisabled]="isDisabled"
+      ></app-github-repo-rating>
+    </div>
+    <mat-card-subtitle>{{ repo.description }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions class="repo__achivements">
+    <button mat-button color="primary">
+      Stars: {{ repo.stargazers_count | numberFormat }}
+    </button>
+    <button mat-button color="warn">
+      Issues: {{ repo.open_issues_count | numberFormat }}
+    </button>
+    <span>Submitted 30 day's ago by {{ repo.owner.login }}</span>
+  </mat-card-actions>
+</mat-card>

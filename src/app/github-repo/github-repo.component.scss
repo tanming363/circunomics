@@ -1,0 +1,29 @@
+.repo {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+
+  &__avatar {
+    background-size: cover;
+  }
+
+  &__name {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__rating {
+    position: absolute;
+    right: 16px;
+  }
+
+  &__achivements {
+    margin-left: 56px;
+  }
+}

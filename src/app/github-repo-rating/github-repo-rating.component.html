@@ -1,0 +1,11 @@
+<div class="star-rating" [class.disabled]="isDisabled">
+  <div
+    *ngFor="let star of stars; let i = index"
+    class="star"
+    [class.full]="i < currentRate"
+    (click)="rate(i + 1)"
+    [class.disabled]="isDisabled"
+  >
+    <mat-icon>star</mat-icon>
+  </div>
+</div>
