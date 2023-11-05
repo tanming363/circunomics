@@ -1,0 +1,7 @@
+<div class="circunomics-container repo-list" *ngFor="let repo of repos">
+  <app-github-repo
+    [repo]="repo"
+    (userHandler)="getUserData($event)"
+  ></app-github-repo>
+</div>
+<div *ngIf="isLoading" class="loading">Loading...</div>
