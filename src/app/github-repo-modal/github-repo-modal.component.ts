@@ -3,7 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from '../material.module';
 import { GithubRepoRatingComponent } from '../github-repo-rating/github-repo-rating.component';
-import { CommonService } from '../services/common.service';
+import { GithubRepoService } from '../services/github-repo.service';
 
 @Component({
   selector: 'app-github-repo-modal',
@@ -16,7 +16,7 @@ export class GithubRepoModalComponent {
   userRating = 0;
 
   constructor(
-    private commonService: CommonService,
+    private githubRepoService: GithubRepoService,
     public dialogRef: MatDialogRef<GithubRepoModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -26,7 +26,7 @@ export class GithubRepoModalComponent {
   }
 
   onApply() {
-    this.commonService.ratingSubject$.next(this.userRating);
+    this.githubRepoService.ratingSubject$.next(this.userRating);
     this.dialogRef.close();
   }
 }

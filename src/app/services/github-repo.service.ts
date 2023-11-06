@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, retry } from 'rxjs';
+import { BehaviorSubject, Observable, map, retry } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class GithubRepoService {
   baseUrl = environment.URL;
+  public ratingSubject$ = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {}
 

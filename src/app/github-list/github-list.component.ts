@@ -1,18 +1,11 @@
-import {
-  Component,
-  OnInit,
-  HostListener,
-  Input,
-  OnDestroy,
-} from '@angular/core';
-import { GithubRepoService } from '../services/github-repo.service';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { GithubRepoModalComponent } from '../github-repo-modal/github-repo-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { GithubRepoComponent } from '../github-repo/github-repo.component';
-import { CommonService } from '../services/common.service';
 import { AppStateService } from '../services/states/app-state.service';
-import { Subscription, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
+import { GithubRepoService } from '../services/github-repo.service';
 
 @Component({
   selector: 'app-github-list',
@@ -21,9 +14,8 @@ import { Subscription, switchMap } from 'rxjs';
   standalone: true,
   imports: [CommonModule, GithubRepoModalComponent, GithubRepoComponent],
 })
-export class GithubListComponent implements OnInit, OnDestroy {
+export class GithubListComponent implements OnInit {
   repos: any[] = [];
-  subscription!: Subscription;
   currentPage = 1;
   isLoading = false;
   modalTitle = '';
@@ -32,29 +24,20 @@ export class GithubListComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: AppStateService,
-    private gitHubService: GithubRepoService,
-    private commonService: CommonService,
+    private githubRepoService: GithubRepoService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.getstartDate();
+    this.getAllRepos();
+  }
+
+  getAllRepos() {
     this.appState.state$.subscribe({
       next: (state) => {
         if (state.repos) {
           this.repos = [...state.repos];
         }
-      },
-      error: (error) => console.log(error),
-      complete: () => console.log('Observable completed'),
-    });
-  }
-
-  getstartDate() {
-    this.commonService.date$.subscribe({
-      next: (date) => {
-        this.startDate = date;
-        this.loadNextPage();
       },
       error: (error) => console.log(error),
       complete: () => console.log('Observable completed'),
@@ -79,16 +62,9 @@ export class GithubListComponent implements OnInit, OnDestroy {
   loadNextPage(): void {
     if (!this.isLoading) {
       this.isLoading = true;
-      this.subscription = this.gitHubService
-        .getGitHubData(this.startDate, this.currentPage)
-        .subscribe((repo: any) => {
-          if (this.startDate) {
-            this.repos = [];
-          }
-          this.repos.push(...repo);
-          this.currentPage++;
-          this.isLoading = false;
-        });
+      this.currentPage++;
+      this.appState.loadNextPage(this.startDate, this.currentPage);
+      this.isLoading = false;
     }
   }
 
@@ -104,15 +80,9 @@ export class GithubListComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(switchMap(() => this.commonService.ratingSubject$))
+      .pipe(switchMap(() => this.githubRepoService.ratingSubject$))
       .subscribe((rating) => {
         this.appState.updatePost(data, rating);
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

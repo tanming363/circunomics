@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MaterialModule } from '../material.module';
 import { NumberFormatPipe } from '../pipe/number-format.pipe';
 import { GithubRepoRatingComponent } from '../github-repo-rating/github-repo-rating.component';
-import { CommonService } from '../services/common.service';
+import { GithubRepoService } from '../services/github-repo.service';
 
 @Component({
   selector: 'app-github-repo',
@@ -23,14 +23,14 @@ export class GithubRepoComponent implements OnInit {
   currentRate = 0;
   isDisabled = true;
 
-  constructor(private commonService: CommonService) {}
+  constructor(private githubRepoService: GithubRepoService) {}
 
   ngOnInit(): void {
     this.getRating();
   }
 
   getRating() {
-    this.commonService.ratingSubject$.subscribe({
+    this.githubRepoService.ratingSubject$.subscribe({
       next: (rating) => {
         this.currentRate = rating;
       },

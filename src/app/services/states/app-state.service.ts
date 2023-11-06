@@ -14,6 +14,8 @@ export class AppStateService {
     repos: [],
   };
 
+  isLoading = false;
+
   constructor(private gitHubService: GithubRepoService) {
     this.gitHubService
       .getGitHubData(this.gitHubService.getLastMonth(), 1)
@@ -41,5 +43,23 @@ export class AppStateService {
       }
     });
     this.stateSubject.next({ ...currentState, repos: updatedPosts });
+  }
+
+  loadNextPage(startDate: string, currentPage: number): void {
+    if (!this.isLoading) {
+      this.isLoading = true;
+      const currentState = this.stateSubject.getValue();
+
+      this.gitHubService
+        .getGitHubData(startDate, currentPage)
+        .subscribe((repos) => {
+          if (startDate) {
+            currentState.repos = [];
+          }
+          currentState.repos.push(...repos);
+          this.stateSubject.next({ ...currentState });
+          this.isLoading = false;
+        });
+    }
   }
 }
