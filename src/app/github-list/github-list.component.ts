@@ -72,6 +72,7 @@ export class GithubListComponent implements OnInit {
     const dialogRef = this.dialog.open(GithubRepoModalComponent, {
       width: '500px',
       data: {
+        repoId: data.id,
         modalTitle: data.name,
         modalDescrption: data.description,
         rating: data.rating,
@@ -82,7 +83,11 @@ export class GithubListComponent implements OnInit {
       .afterClosed()
       .pipe(switchMap(() => this.githubRepoService.ratingSubject$))
       .subscribe((rating) => {
-        this.appState.updatePost(data, rating);
+        this.repos.forEach((el) => {
+          if (el.id === rating.repoId) {
+            el.rating = rating.rating;
+          }
+        });
       });
   }
 }

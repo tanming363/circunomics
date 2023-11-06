@@ -26,13 +26,13 @@ export class GithubRepoComponent implements OnInit {
   constructor(private githubRepoService: GithubRepoService) {}
 
   ngOnInit(): void {
-    this.getRating();
+    this.getRating(this.repo.id);
   }
 
-  getRating() {
+  getRating(repoId: string) {
     this.githubRepoService.ratingSubject$.subscribe({
-      next: (rating) => {
-        this.currentRate = rating;
+      next: (ratings) => {
+        this.currentRate = ratings[repoId] || 0;
       },
       error: (error) => console.log(error),
       complete: () => console.log('Observable completed'),

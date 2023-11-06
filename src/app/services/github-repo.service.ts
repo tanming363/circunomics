@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class GithubRepoService {
   baseUrl = environment.URL;
-  public ratingSubject$ = new BehaviorSubject<number>(0);
+  public ratingSubject$ = new BehaviorSubject<any>({});
 
   constructor(private http: HttpClient) {}
 
@@ -34,9 +34,5 @@ export class GithubRepoService {
       retry(3),
       map((data: any) => data.items)
     );
-  }
-
-  getGitHubUser(id: any): Observable<any> {
-    return this.http.get<any>(`https://api.github.com/users/${id}`);
   }
 }

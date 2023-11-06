@@ -26,7 +26,11 @@ export class GithubRepoModalComponent {
   }
 
   onApply() {
-    this.githubRepoService.ratingSubject$.next(this.userRating);
+    const ratingData: { repoId: string; rating: number } = {
+      repoId: this.data.repoId,
+      rating: this.userRating,
+    };
+    this.githubRepoService.ratingSubject$.next(ratingData);
     this.dialogRef.close();
   }
 }
